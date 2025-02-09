@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            user-select: none; /* يمنع تحديد النص */
+            -webkit-user-select: none; /* لمتصفحات WebKit مثل Chrome وSafari */
+            -moz-user-select: none; /* لمتصفح Firefox */
+            -ms-user-select: none; /* لمتصفح Internet Explorer/Edge */
+        }
+        @media print {
+            body {
+                display: none;
+            }
+        }
+        .quiz-container {
+            width: 90%;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #007BFF;
+        }
+        .timer {
+            color: red;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        .question p {
+            font-weight: bold;
+        }
+        .options label {
+            display: block;
+            margin: 5px 0;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            display: none;
+        }
+        .incorrect {
+            color: red;
+        }
+        .correct {
+            color: green;
+        }
+        .question-result {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1></h1>
+        <div class="timer" id="timer">Time remaining: 60 seconds</div>
+
+        <div class="question" id="question-1">
+            <p>47 year old man with a history of chronic sinusitis presents with shortness of breath to the Emergency Department. Initial investigations reveal Hb 10.4g/dl Platelets 477 * 10 9/l WCC 14.3 * 10 9/l ESR 92 mm/h Urea 20 mmol/l Creatinine 193 umol/l Urine dipstick blood +++. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q1" value="Mixed cryoglobulinemia"> Mixed cryoglobulinemia</label>
+                <label><input type="radio" name="q1" value="Churg-Strauss syndrome"> Churg-Strauss syndrome</label>
+                <label><input type="radio" name="q1" value="Wegener's granulomatosis"> Wegener's granulomatosis</label>
+                <label><input type="radio" name="q1" value="Haemolytic uraemic syndrome"> Haemolytic uraemic syndrome</label>
+                <label><input type="radio" name="q1" value="Henoch-Schonlein purpura"> Henoch-Schonlein purpura</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-2">
+            <p>All of the following vasculitic syndromes are thought to be due to immune complex deposition EXCEPT:</p>
+            <div class="options">
+                <label><input type="radio" name="q2" value="Cryoglobulinemic vasculitis"> Cryoglobulinemic vasculitis</label>
+                <label><input type="radio" name="q2" value="Granulomatosis with polyangiitis"> Granulomatosis with polyangiitis</label>
+                <label><input type="radio" name="q2" value="Henoch-Schönlein purpura"> Henoch-Schönlein purpura</label>
+                <label><input type="radio" name="q2" value="Polyarteritis nodosa associated with hepatitis B"> Polyarteritis nodosa associated with hepatitis B</label>
+                <label><input type="radio" name="q2" value="Serum sickness"> Serum sickness</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-3">
+            <p>40 year old male presents to the emergency department with 2 days of low-volume hemoptysis. He reports that he has been coughing up 2–5 tablespoons of blood each day. He does report mild chest pain, low-grade fevers, and weight loss. In addition, he has had about 1 year of severe upper respiratory symptoms including frequent epistaxis and purulent discharge treated with several courses of antibiotics. Aside from mild hyperlipidemia, he is otherwise healthy. His only medications are daily aspirin and lovastatin. On physical examination, he has normal vital signs, and upper airway is notable for saddle nose deformity and clear lungs. A computed tomography (CT) of the chest shows multiple cavitating nodules, and urinalysis shows red blood cells. Which of the following tests offers the highest diagnostic yield to make the appropriate diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q3" value="Deep skin biopsy"> Deep skin biopsy</label>
+                <label><input type="radio" name="q3" value="Percutaneous kidney biopsy"> Percutaneous kidney biopsy</label>
+                <label><input type="radio" name="q3" value="Pulmonary angiogram"> Pulmonary angiogram</label>
+                <label><input type="radio" name="q3" value="Surgical lung biopsy"> Surgical lung biopsy</label>
+                <label><input type="radio" name="q3" value="Upper airway biopsy"> Upper airway biopsy</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-4">
+            <p>Lung biopsy has the greatest diagnostic yield in which of the following vasculitic syndromes?</p>
+            <div class="options">
+                <label><input type="radio" name="q4" value="Cryoglobulinemic vasculitis"> Cryoglobulinemic vasculitis</label>
+                <label><input type="radio" name="q4" value="Cutaneous vasculitis"> Cutaneous vasculitis</label>
+                <label><input type="radio" name="q4" value="Granulomatosis with polyangiitis (Wegener)"> Granulomatosis with polyangiitis (Wegener)</label>
+                <label><input type="radio" name="q4" value="IgA vasculitis (Henoch-Schönlein)"> IgA vasculitis (Henoch-Schönlein)</label>
+                <label><input type="radio" name="q4" value="Polyarteritis nodosa"> Polyarteritis nodosa</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-5">
+            <p>In a patient with suspected granulomatosis with polyangiitis (Wegener), which of the following lung radiologic findings is least likely?</p>
+            <div class="options">
+                <label><input type="radio" name="q5" value="Bronchiectasis"> Bronchiectasis</label>
+                <label><input type="radio" name="q5" value="Endobronchial stenosis"> Endobronchial stenosis</label>
+                <label><input type="radio" name="q5" value="Multiple cavitating nodules"> Multiple cavitating nodules</label>
+                <label><input type="radio" name="q5" value="Nodular infiltrates"> Nodular infiltrates</label>
+                <label><input type="radio" name="q5" value="Solitary cavitating nodule"> Solitary cavitating nodule</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-6">
+            <p>Perinuclear antineutrophil cytoplasmic antibodies (pANCA) are most strongly associated with which condition?</p>
+            <div class="options">
+                <label><input type="radio" name="q6" value="Goodpasture's syndrome"> Goodpasture's syndrome</label>
+                <label><input type="radio" name="q6" value="Churg-Strauss syndrome"> Churg-Strauss syndrome</label>
+                <label><input type="radio" name="q6" value="Polyarteritis nodosa"> Polyarteritis nodosa</label>
+                <label><input type="radio" name="q6" value="Wegenehs granulomatosis"> Wegenehs granulomatosis</label>
+                <label><input type="radio" name="q6" value="Autoimmune hepatitis"> Autoimmune hepatitis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-7">
+            <p>40 year old female, with a known case of asthma for the last four years, presented with a two-month history of numbness in the right upper limb. Examination revealed asymmetric neuropathy and palpable purpura over the lower limbs. Investigations revealed eosinophilia. What is the likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q7" value="Systemic lupus erythematosus (SLE)"> Systemic lupus erythematosus (SLE)</label>
+                <label><input type="radio" name="q7" value="Polyarteritis nodosa (PAN)"> Polyarteritis nodosa (PAN)</label>
+                <label><input type="radio" name="q7" value="Giant cell arteritis (GCA)"> Giant cell arteritis (GCA)</label>
+                <label><input type="radio" name="q7" value="Churg-Strauss syndrome"> Churg-Strauss syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-8">
+            <p>41 year old man with a past history of asthma presents with pain and weakness in his left hand. Examination findings are consistent with a left ulnar nerve palsy. Blood tests reveal eosinophilia. Which one of the following antibodies is most likely to be present?</p>
+            <div class="options">
+                <label><input type="radio" name="q8" value="ANA"> ANA</label>
+                <label><input type="radio" name="q8" value="Anti-Scl70"> Anti-Scl70</label>
+                <label><input type="radio" name="q8" value="pANCA"> pANCA</label>
+                <label><input type="radio" name="q8" value="Antiphospholipid antibodies"> Antiphospholipid antibodies</label>
+                <label><input type="radio" name="q8" value="cANCA"> cANCA</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-9">
+            <p>All of the following vascular beds are typically affected by polyarteritis nodosa EXCEPT:</p>
+            <div class="options">
+                <label><input type="radio" name="q9" value="Cerebral arteries"> Cerebral arteries</label>
+                <label><input type="radio" name="q9" value="Coronary arteries"> Coronary arteries</label>
+                <label><input type="radio" name="q9" value="Pulmonary arteries"> Pulmonary arteries</label>
+                <label><input type="radio" name="q9" value="Renal arteries"> Renal arteries</label>
+                <label><input type="radio" name="q9" value="Bronchial arteries"> Bronchial arteries</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-10">
+            <p>Which one of the following is least recognised in polyarteritis nodosa?</p>
+            <div class="options">
+                <label><input type="radio" name="q10" value="Cytoplasmic-antineutrophil cytoplasmic antibodies (cANCA)"> Cytoplasmic-antineutrophil cytoplasmic antibodies (cANCA)</label>
+                <label><input type="radio" name="q10" value="Hypertension"> Hypertension</label>
+                <label><input type="radio" name="q10" value="Mononeuritis multiplex"> Mononeuritis multiplex</label>
+                <label><input type="radio" name="q10" value="Pyrexia"> Pyrexia</label>
+                <label><input type="radio" name="q10" value="Renal failure"> Renal failure</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-11">
+            <p>Which one of the following features is least typical of polymyalgia rheumatica?</p>
+            <div class="options">
+                <label><input type="radio" name="q11" value="Elevated creatinine kinase"> Elevated creatinine kinase</label>
+                <label><input type="radio" name="q11" value="Low-grade fever"> Low-grade fever</label>
+                <label><input type="radio" name="q11" value="Stiffness in proximal limb muscles"> Stiffness in proximal limb muscles</label>
+                <label><input type="radio" name="q11" value="Polyarthralgia"> Polyarthralgia</label>
+                <label><input type="radio" name="q11" value="Anorexia"> Anorexia</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-12">
+            <p>68 year-old female presents with a two week history of intermittent headaches and lethargy. Blood tests reveal the following: ESR 67 mm/hr. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q12" value="Polymyalgia rheumatica"> Polymyalgia rheumatica</label>
+                <label><input type="radio" name="q12" value="Cluster headaches"> Cluster headaches</label>
+                <label><input type="radio" name="q12" value="Polyarteritis nodosa"> Polyarteritis nodosa</label>
+                <label><input type="radio" name="q12" value="Migraine"> Migraine</label>
+                <label><input type="radio" name="q12" value="Temporal arteritis"> Temporal arteritis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-13">
+            <p>70 years old female with a history of chronic anxiety presents with severe left temporal headache radiating from eye to scalp 3 days ago. She also experienced discomfort during eating. Which one of the following drugs should be given while awaiting results of diagnostic test?</p>
+            <div class="options">
+                <label><input type="radio" name="q13" value="Acyclovir"> Acyclovir</label>
+                <label><input type="radio" name="q13" value="Carbamazepine"> Carbamazepine</label>
+                <label><input type="radio" name="q13" value="Diclofenac"> Diclofenac</label>
+                <label><input type="radio" name="q13" value="Oral Prednisolone 60 mg"> Oral Prednisolone 60 mg</label>
+                <label><input type="radio" name="q13" value="Sumatriptan"> Sumatriptan</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-14">
+            <p>An 84-year-old woman is seen by her primary care physician for evaluation of severe headaches. She noted these several weeks ago, and they have been getting worse. Although she has not had any visual aura, she is concerned that she has been intermittently losing vision in her left eye for the last few days. She denies new weakness or numbness, but she does report jaw pain with eating. Her past medical history includes coronary artery disease requiring a bypass grafting 10 years prior, diabetes mellitus, hyperlipidemia, and mild depression. Full review of symptoms is notable for night sweats and mild low back pain particularly prominent in the morning. Which of the following is the next most appropriate step?</p>
+            <div class="options">
+                <label><input type="radio" name="q14" value="Aspirin 75 mg orally daily"> Aspirin 75 mg orally daily</label>
+                <label><input type="radio" name="q14" value="Measurement of erythrocyte sedimentation rate"> Measurement of erythrocyte sedimentation rate</label>
+                <label><input type="radio" name="q14" value="Immediate initiation of glucocorticoid"> Immediate initiation of glucocorticoid</label>
+                <label><input type="radio" name="q14" value="Referral for temporal artery biopsy"> Referral for temporal artery biopsy</label>
+                <label><input type="radio" name="q14" value="Referral for ultrasound of temporal artery"> Referral for ultrasound of temporal artery</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-15">
+            <p>68 years old man presents with headaches at the sides of his head worse on chewing and yawning. Which of the following findings would exclude giant cell arteritis?</p>
+            <div class="options">
+                <label><input type="radio" name="q15" value="Normal temperature"> Normal temperature</label>
+                <label><input type="radio" name="q15" value="Normal temporal artery biopsy"> Normal temporal artery biopsy</label>
+                <label><input type="radio" name="q15" value="Normal plasma viscosity"> Normal plasma viscosity</label>
+                <label><input type="radio" name="q15" value="No past medical history of polymyalgia rheumatica"> No past medical history of polymyalgia rheumatica</label>
+            </div>
+        </div>
+
+        <div class="question" id="question-16">
+            <p> 16- 38 year old man has had 3 months of intermittent joint pain and swelling in both knees. The symptoms last weeks at a time and then improve spontaneously. His only past medical history is that of an oval-shaped, red pruritic skin lesion in his right axilla 4 months earlier, which appeared shortly after a camping trip. His immunoglobulin G (IgG) serology for Borrelia burgdorferi is positive. Which of the following is the most appropriate next step in management? </p>
+            <div class="options">
+                <label><input type="radio" name="q16" value="high-dose glucocorticoids"> high-dose glucocorticoids</label>
+                <label><input type="radio" name="q16" value="low-dose glucocorticoids"> low-dose glucocorticoids</label>
+                <label><input type="radio" name="q16" value="high-dose NSAID therapy"> high-dose NSAID therapy</label>
+                <label><input type="radio" name="q16" value="long-term penicillin"> long-term penicillin</label>
+                <label><input type="radio" name="q16" value="long-term doxycycline"> long-term doxycycline</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-17">
+            <p> 17- 26 year old man has had a year of intermittent joint pain and swelling in both knees. The symptoms last weeks at a time and then improve. He has always been healthy. His only past medical history is that of a round, pruritic skin lesion in his left groin 2 years earlier, which appeared shortly after a camping trip. Which of the following is the most appropriate initial diagnostic test? </p>
+            <div class="options">
+                <label><input type="radio" name="q17" value="positive serologic studies only"> positive serologic studies only</label>
+                <label><input type="radio" name="q17" value="synovial fluid analysis"> synovial fluid analysis</label>
+                <label><input type="radio" name="q17" value="skin biopsy"> skin biopsy</label>
+                <label><input type="radio" name="q17" value="positive serology and clinical symptoms"> positive serology and clinical symptoms</label>
+                <label><input type="radio" name="q17" value="synovial biopsy"> synovial biopsy</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-18">
+            <p> 18- 33 year old woman complains of having intermittent arthralgias of multiple joints and occasional swelling in both knees. The symptoms started about 6 months ago and usually last for weeks at a time and then improve spontaneously. She reports no morning stiffness or any constitutional symptoms. About 1 year ago, she recalls having a round, red, pruritic skin lesion along her belt line, which resolved on its own. Serologic tests confirm a clinical diagnosis of Lyme disease. Which of the following mechanisms is the most likely cause of this syndrome? </p>
+            <div class="options">
+                <label><input type="radio" name="q18" value="autoimmune"> autoimmune</label>
+                <label><input type="radio" name="q18" value="viral infection"> viral infection</label>
+                <label><input type="radio" name="q18" value="spirochetal infection"> spirochetal infection</label>
+                <label><input type="radio" name="q18" value="circulating immune complexes"> circulating immune complexes</label>
+                <label><input type="radio" name="q18" value="metabolic (abnormal crystal metabolism)"> metabolic (abnormal crystal metabolism)</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-19">
+            <p> 19- 54 year old woman is reviewed. She was discharged from the psychiatric ward around 5 weeks ago following an admission for an acute psychotic episode. Her psychotic symptoms have settled on risperidone but unfortunately she has now developed a dry mouth and arthralgia in both hands. A number of blood tests are requested. Rheumatoid factor Positive Anti-Ro Positive Anti-Smith Negative ANA Positive C4- Low What is the most likely diagnosis? </p>
+            <div class="options">
+                <label><input type="radio" name="q19" value="Systemic lupus erythematous"> Systemic lupus erythematous</label>
+                <label><input type="radio" name="q19" value="Sarcoidosis"> Sarcoidosis</label>
+                <label><input type="radio" name="q19" value="Drug-induced lupus erythematous"> Drug-induced lupus erythematous</label>
+                <label><input type="radio" name="q19" value="Rheumatoid arthritis"> Rheumatoid arthritis</label>
+                <label><input type="radio" name="q19" value="Sjogren's syndrome"> Sjogren's syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-20">
+            <p> 20- Which of the following is the most common extraglandular manifestation of primary Sjögren syndrome? </p>
+            <div class="options">
+                <label><input type="radio" name="q20" value="Arthralgias/arthritis"> Arthralgias/arthritis</label>
+                <label><input type="radio" name="q20" value="Lymphoma"> Lymphoma</label>
+                <label><input type="radio" name="q20" value="Peripheral neuropathy"> Peripheral neuropathy</label>
+                <label><input type="radio" name="q20" value="Raynaud phenomenon"> Raynaud phenomenon</label>
+                <label><input type="radio" name="q20" value="Vasculitis"> Vasculitis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-21">
+            <p> 21- 54 year old female is reviewed in the rheumatology clinic due to dry eyes and arthralgia. A diagnosis of primary Sjogren's syndrome is suspected. Which one of the following features is least associated with this condition? </p>
+            <div class="options">
+                <label><input type="radio" name="q21" value="Renal tubular acidosis"> Renal tubular acidosis</label>
+                <label><input type="radio" name="q21" value="Xerostomia"> Xerostomia</label>
+                <label><input type="radio" name="q21" value="Sensory polyneuropathy"> Sensory polyneuropathy</label>
+                <label><input type="radio" name="q21" value="Dilated cardiomyopathy"> Dilated cardiomyopathy</label>
+                <label><input type="radio" name="q21" value="Raynaud's phenomenon"> Raynaud's phenomenon</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-22">
+            <p> 22- Which of the following is LEAST likely to be seen in Sjogren‟s syndrome? </p>
+            <div class="options">
+                <label><input type="radio" name="q22" value="Dental caries"> Dental caries</label>
+                <label><input type="radio" name="q22" value="Corneal ulceration"> Corneal ulceration</label>
+                <label><input type="radio" name="q22" value="Renal tubular acidosis"> Renal tubular acidosis</label>
+                <label><input type="radio" name="q22" value="Lymphoma"> Lymphoma</label>
+                <label><input type="radio" name="q22" value="Cardiac fibrosis"> Cardiac fibrosis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-23">
+            <p> 23- 57 year old woman with depression and chronic migraine headaches reports several years of dry mouth and dry eyes. Her primary complaint is that she can no longer eat her favourite crackers, although she does report photosensitivity and eye burning on further questioning. She has no other associated symptoms. Examination shows dry, erythematous, sticky oral mucosa. All of the following tests are likely to be positive in this patient EXCEPT: </p>
+            <div class="options">
+                <label><input type="radio" name="q23" value="Anti La/SS-B antibody"> Anti La/SS-B antibody</label>
+                <label><input type="radio" name="q23" value="Anti Ro/SS-A antibody"> Anti Ro/SS-A antibody</label>
+                <label><input type="radio" name="q23" value="Schirmer test"> Schirmer test</label>
+                <label><input type="radio" name="q23" value="Anti Scl-70 antibody"> Anti Scl-70 antibody</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-24">
+            <p> 24- 45 year old woman with a history of primary Sjogren's syndrome is reviewed in a clinic. Her main problem is a dry mouth, which unfortunately has not responded to artificial saliva. Which one of the following medications is most likely to be beneficial? </p>
+            <div class="options">
+                <label><input type="radio" name="q24" value="Rivastigmine"> Rivastigmine</label>
+                <label><input type="radio" name="q24" value="Neostigmine"> Neostigmine</label>
+                <label><input type="radio" name="q24" value="Clonidine"> Clonidine</label>
+                <label><input type="radio" name="q24" value="Atropine"> Atropine</label>
+                <label><input type="radio" name="q24" value="Pilocarpine"> Pilocarpine</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-25">
+            <p> 25- A patient with primary Sjögren syndrome that was diagnosed 6 years ago and treated with tear replacement for symptomatic relief notes continued parotid swelling for the last 3 months. She has also noted enlarging posterior cervical lymph nodes. Evaluation shows leukopenia and low C4 complement levels. What is the most likely diagnosis? </p>
+            <div class="options">
+                <label><input type="radio" name="q25" value="Amyloidosis"> Amyloidosis</label>
+                <label><input type="radio" name="q25" value="Chronic pancreatitis"> Chronic pancreatitis</label>
+                <label><input type="radio" name="q25" value="HIV infection"> HIV infection</label>
+                <label><input type="radio" name="q25" value="Lymphoma"> Lymphoma</label>
+                <label><input type="radio" name="q25" value="Secondary Sjögren syndrome"> Secondary Sjögren syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-26">
+            <p> 26- 43 year old Japanese woman presents to your clinic with 6 months of dry irritated eyes, dry mouth, and cheek swelling. On examination, she has parotid gland enlargement bilaterally. Sialometry is abnormal. Biopsy of the minor salivary glands in the lip shows granulomatous inflammation. Serologies show negative SS-A and SS-B antibodies. Which of the following is the most likely diagnosis? </p>
+            <div class="options">
+                <label><input type="radio" name="q26" value="Systemic sclerosis"> Systemic sclerosis</label>
+                <label><input type="radio" name="q26" value="Sarcoidosis"> Sarcoidosis</label>
+                <label><input type="radio" name="q26" value="Sjögren syndrome"> Sjögren syndrome</label>
+                <label><input type="radio" name="q26" value="HIV-associated sicca syndrome"> HIV-associated sicca syndrome</label>
+                <label><input type="radio" name="q26" value="Eosinophilic granulomatosis with polyangiitis"> Eosinophilic granulomatosis with polyangiitis</label>
+            </div>
+        </div>
+
+        <div class="question" id="question-27">
+            <p>27- A 66-year-old female presents with pain at the base of her left thumb. She has no past medical history of note.
+            On examination there is diffuse tenderness and swelling of her left first carpometacarpal joint. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q27" value="Osteoarthritis"> Osteoarthritis</label>
+                <label><input type="radio" name="q27" value="De Quervain's tenosynovitis"> De Quervain's tenosynovitis</label>
+                <label><input type="radio" name="q27" value="Gout"> Gout</label>
+                <label><input type="radio" name="q27" value="Rheumatoid arthritis"> Rheumatoid arthritis</label>
+                <label><input type="radio" name="q27" value="Primary hyperparathyroidism"> Primary hyperparathyroidism</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-28">
+            <p>28- Which of the following is the most common location for osteoarthritis?</p>
+            <div class="options">
+                <label><input type="radio" name="q28" value="hip"> hip</label>
+                <label><input type="radio" name="q28" value="base of thumb"> base of thumb</label>
+                <label><input type="radio" name="q28" value="knee"> knee</label>
+                <label><input type="radio" name="q28" value="spine"> spine</label>
+                <label><input type="radio" name="q28" value="DIP joints of hand"> DIP joints of hand</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-29">
+            <p>29- Which of the following joints is often spared by osteoarthritis?</p>
+            <div class="options">
+                <label><input type="radio" name="q29" value="Cervical spine"> Cervical spine</label>
+                <label><input type="radio" name="q29" value="Distal interphalangeal joint"> Distal interphalangeal joint</label>
+                <label><input type="radio" name="q29" value="Hip"> Hip</label>
+                <label><input type="radio" name="q29" value="Proximal interphalangeal joint"> Proximal interphalangeal joint</label>
+                <label><input type="radio" name="q29" value="Wrist"> Wrist</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-30">
+            <p>30- A 79-year-old woman presents to her GP with pain in the left knee. This is particularly bad in the evenings and is stopping her from sleeping. The GP explains that her discomfort is most likely due to osteoarthritis and arranges for her to have an x-ray of the knee. Which of the following descriptions are most likely to describe the x-ray?</p>
+            <div class="options">
+                <label><input type="radio" name="q30" value="Reduced joint space, subchondral sclerosis, bone cysts and osteophytes"> Reduced joint space, subchondral sclerosis, bone cysts and osteophytes</label>
+                <label><input type="radio" name="q30" value="Increased joint space, subchondral sclerosis, bone cysts and osteophytes"> Increased joint space, subchondral sclerosis, bone cysts and osteophytes</label>
+                <label><input type="radio" name="q30" value="Reduced joint space, soft tissue swelling and peri-articular osteopenia"> Reduced joint space, soft tissue swelling and peri-articular osteopenia</label>
+                <label><input type="radio" name="q30" value="Increased joint space, soft tissue swelling and peri-articular osteopenia"> Increased joint space, soft tissue swelling and peri-articular osteopenia</label>
+                <label><input type="radio" name="q30" value="Normal x-ray"> Normal x-ray</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-31">
+            <p>31- A 57-year-old man has pain in his left hand and right knee, which is interfering with his work. The pain came on gradually, first in his hand 6 months ago and now in his knee. It is usually fine when he wakes up, but gets worse as the day progresses. There is no history of any trauma, and he is otherwise well. Taking over-the-counter NSAIDs usually relieves the pain. On examination, there is bony soft tissue swelling of his second and third distal interphalangeal (DIP) joints in the left hand and crepitus over the right knee with flexion. There is no erythema or joint effusion. Which of the following is the initial change noticed in the pathogenesis of osteoarthritis?</p>
+            <div class="options">
+                <label><input type="radio" name="q31" value="abnormal chondrocyte function"> abnormal chondrocyte function</label>
+                <label><input type="radio" name="q31" value="a defect in the extracellular matrix of cartilage"> a defect in the extracellular matrix of cartilage</label>
+                <label><input type="radio" name="q31" value="inflammatory changes in subchondral bone"> inflammatory changes in subchondral bone</label>
+                <label><input type="radio" name="q31" value="ligament inflammation"> ligament inflammation</label>
+                <label><input type="radio" name="q31" value="synovial inflammation"> synovial inflammation</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-32">
+            <p>32- A 57-year-old man presents with pain in his right knee. An x-ray shows osteoarthritis. He has no past medical history of note. What is the most suitable treatment option for the management of his pain?</p>
+            <div class="options">
+                <label><input type="radio" name="q32" value="Oral diclofenac with omeprazole"> Oral diclofenac with omeprazole</label>
+                <label><input type="radio" name="q32" value="Oral glucosamine"> Oral glucosamine</label>
+                <label><input type="radio" name="q32" value="Oral diclofenac"> Oral diclofenac</label>
+                <label><input type="radio" name="q32" value="Oral ibuprofen"> Oral ibuprofen</label>
+                <label><input type="radio" name="q32" value="Oral paracetamol"> Oral paracetamol</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-33">
+            <p>33-A 54-year-old farm worker presents for review. She has recently been diagnosed with osteoarthritis of the hand but has no other past medical history of note.
+            Despite regular paracetamol she is still experiencing considerable pain, especially around the base of both thumbs. What is the most suitable next management step?</p>
+            <div class="options">
+                <label><input type="radio" name="q33" value="Add oral diclofenac + lansoprazole"> Add oral diclofenac + lansoprazole</label>
+                <label><input type="radio" name="q33" value="Switch paracetamol for co-codamol 8/500"> Switch paracetamol for co-codamol 8/500</label>
+                <label><input type="radio" name="q33" value="Add topical ibuprofen"> Add topical ibuprofen</label>
+                <label><input type="radio" name="q33" value="Add oral ibuprofen"> Add oral ibuprofen</label>
+                <label><input type="radio" name="q33" value="Add oral glucosamine"> Add oral glucosamine</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-34">
+            <p>34-A 58-year-old woman with a history of left hip osteoarthritis presents for review. She is currently taking co-codamol 30/500 for pain on a regular basis
+            but this is unfortunately not controlling her symptoms. There is no past medical history of note, in particular no asthma or gastrointestinal problems. What is the most suitable next step in management?</p>
+            <div class="options">
+                <label><input type="radio" name="q34" value="Switch to regular oral tramadol"> Switch to regular oral tramadol</label>
+                <label><input type="radio" name="q34" value="Add topical ibuprofen"> Add topical ibuprofen</label>
+                <label><input type="radio" name="q34" value="Add oral diclofenac + proton pump inhibitor"> Add oral diclofenac + proton pump inhibitor</label>
+                <label><input type="radio" name="q34" value="Add oral etoricoxib"> Add oral etoricoxib</label>
+                <label><input type="radio" name="q34" value="Add oral diclofenac"> Add oral diclofenac</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-35">
+            <p>35- You are seeing Mrs. Hudson today, a 60-year-old obese woman with bilateral knee osteoarthritis. Mrs. Hudson describes pain most days and limiting pain at least 2 days per week. She has tried activity modification (walking less) without success. All of the following therapies have been shown to be effective in treating osteoarthritis symptoms EXCEPT:</p>
+            <div class="options">
+                <label><input type="radio" name="q35" value="Acetaminophen"> Acetaminophen</label>
+                <label><input type="radio" name="q35" value="Glucocorticoid steroid intra-articular injections"> Glucocorticoid steroid intra-articular injections</label>
+                <label><input type="radio" name="q35" value="Glucosamine-chondroitin"> Glucosamine-chondroitin</label>
+                <label><input type="radio" name="q35" value="Naproxen"> Naproxen</label>
+                <label><input type="radio" name="q35" value="Total joint arthroplasty"> Total joint arthroplasty</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-36">
+            <p>36-Which one of the following is not associated with carpal tunnel syndrome?</p>
+            <div class="options">
+                <label><input type="radio" name="q36" value="Tinel's Sign"> Tinel's Sign</label>
+                <label><input type="radio" name="q36" value="Compression of the median nerve"> Compression of the median nerve</label>
+                <label><input type="radio" name="q36" value="Wasting of the hypothenar eminence"> Wasting of the hypothenar eminence</label>
+                <label><input type="radio" name="q36" value="Flexion of the wrist reproduces symptoms"> Flexion of the wrist reproduces symptoms</label>
+                <label><input type="radio" name="q36" value="Weakness of thumb abduction"> Weakness of thumb abduction</label>
+            </div>
+        </div>
+
+        <div class="question" id="question-37">
+            <p>37-A 34-year-oId Kitchen worker presents with a two week history of pain in her right wrist. She has recently emigrated from Ghana and has no past medical history of note. On examination she is tender over the base of her right thumb and also over the radial styloid process. Ulnar deviation of the wrist recreates the pain. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q37" value="Rheumatoid arthritis"> Rheumatoid arthritis</label>
+                <label><input type="radio" name="q37" value="Osteoarthritis of the carpometacarpal joint"> Osteoarthritis of the carpometacarpal joint</label>
+                <label><input type="radio" name="q37" value="De Quervain's tenosynovitis"> De Quervain's tenosynovitis</label>
+                <label><input type="radio" name="q37" value="Carpal tunnel syndrome"> Carpal tunnel syndrome</label>
+                <label><input type="radio" name="q37" value="Systemic lupus erythematosus"> Systemic lupus erythematosus</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-38">
+            <p>38- A 32-year-old woman presents to clinic with right thumb and wrist pain that has worsened over several weeks. She has pain when she pinches her thumb against her other fingers. Her only other history is that she is a new mother with an 8-week-old infant at home. On physical examination, she has mild swelling and tenderness over the radial styloid process, and pain is elicited when she places her thumb in her palm and grasps it with her fingers. A Phalen manoeuvre is negative. Which condition is most likely?</p>
+            <div class="options">
+                <label><input type="radio" name="q38" value="Carpal tunnel syndrome"> Carpal tunnel syndrome</label>
+                <label><input type="radio" name="q38" value="De Quervain tenosynovitis"> De Quervain tenosynovitis</label>
+                <label><input type="radio" name="q38" value="Gouty arthritis of the first metacarpophalangeal joint"> Gouty arthritis of the first metacarpophalangeal joint</label>
+                <label><input type="radio" name="q38" value="Palmar fasciitis"> Palmar fasciitis</label>
+                <label><input type="radio" name="q38" value="Rheumatoid arthritis"> Rheumatoid arthritis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-39">
+            <p>39-A 40-year-old woman complains of a permanent 'funny-bone' sensation in her right elbow. This is accompanied by tingling in the little and ring finger. Her symptoms are worse when the elbow is bent for prolonged periods. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q39" value="Cubital tunnel syndrome"> Cubital tunnel syndrome</label>
+                <label><input type="radio" name="q39" value="Lateral epicondylitis"> Lateral epicondylitis</label>
+                <label><input type="radio" name="q39" value="Medial epicondylitis"> Medial epicondylitis</label>
+                <label><input type="radio" name="q39" value="Median nerve entrapment syndrome"> Median nerve entrapment syndrome</label>
+                <label><input type="radio" name="q39" value="Radial tunnel syndrome"> Radial tunnel syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-40">
+            <p>40-A 45-year-old man presents with a painful swelling on the posterior aspect of his elbow. There is no history of trauma. On examination an erythematous tender swelling is noted. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q40" value="Synovial cyst"> Synovial cyst</label>
+                <label><input type="radio" name="q40" value="Haemarthrosis"> Haemarthrosis</label>
+                <label><input type="radio" name="q40" value="Septic arthritis"> Septic arthritis</label>
+                <label><input type="radio" name="q40" value="Gout"> Gout</label>
+                <label><input type="radio" name="q40" value="Olecranon bursitis"> Olecranon bursitis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-41">
+            <p>41-A 43-year-old woman presents with right-sided elbow pain. This has been present for the past month and she reports no obvious trigger. On examination she reports pain when the wrist is extended whilst the elbow is extended. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q41" value="Cubital tunnel syndrome"> Cubital tunnel syndrome</label>
+                <label><input type="radio" name="q41" value="Lateral epicondylitis"> Lateral epicondylitis</label>
+                <label><input type="radio" name="q41" value="Carpal tunnel syndrome"> Carpal tunnel syndrome</label>
+                <label><input type="radio" name="q41" value="Medial epicondylitis"> Medial epicondylitis</label>
+                <label><input type="radio" name="q41" value="Pronator syndrome"> Pronator syndrome</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-42">
+            <p>42-A 47-year-old female presents with elbow pain. She has just spent the weekend painting the house. On examination there is localised pain around the lateral epicondyle and a diagnosis of lateral epicondylitis is suspected. Which one of the following movements would characteristically worsen the pain?</p>
+            <div class="options">
+                <label><input type="radio" name="q42" value="Resisted thumb flexion"> Resisted thumb flexion</label>
+                <label><input type="radio" name="q42" value="Thumb extension"> Thumb extension</label>
+                <label><input type="radio" name="q42" value="Flexion of the elbow"> Flexion of the elbow</label>
+                <label><input type="radio" name="q42" value="Pronation of the forearm with the elbow flexed"> Pronation of the forearm with the elbow flexed</label>
+                <label><input type="radio" name="q42" value="Resisted wrist extension with the elbow extended"> Resisted wrist extension with the elbow extended</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-43">
+            <p>43-A 50-year-old woman complains of pain in her right elbow. This has been present for the past four weeks and is maximal around 4-5 cm distal from the lateral aspect of the elbow joint. The pain is made worse by extending the elbow and pronating the forearm. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q43" value="Lateral epicondylitis"> Lateral epicondylitis</label>
+                <label><input type="radio" name="q43" value="Radial tunnel syndrome"> Radial tunnel syndrome</label>
+                <label><input type="radio" name="q43" value="De Quervain's tenosynovitis"> De Quervain's tenosynovitis</label>
+                <label><input type="radio" name="q43" value="Cubital tunnel syndrome"> Cubital tunnel syndrome</label>
+                <label><input type="radio" name="q43" value="Medial epicondylitis"> Medial epicondylitis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-44">
+            <p>44- A 54-year-old man with a history of type 2 diabetes mellitus presents with a history of right shoulder pain. On examination there is limited movement of the right shoulder in all directions. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q44" value="Adhesive capsulitis"> Adhesive capsulitis</label>
+                <label><input type="radio" name="q44" value="Dermatomyositis"> Dermatomyositis</label>
+                <label><input type="radio" name="q44" value="Avascular necrosis"> Avascular necrosis</label>
+                <label><input type="radio" name="q44" value="Diabetic amyotrophy"> Diabetic amyotrophy</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-45">
+            <p>45- A 58-year-old woman presents complaining of right shoulder pain. She does not recall any prior injury but notes that she feels that the shoulder has been getting progressively more stiff over the last several months. She previously had several episodes of bursitis of the right shoulder that were treated successfully with nonsteroidal anti-inflammatory drugs and steroid injections. The patient’s past medical history is also significant for diabetes mellitus, for which she takes metformin and glyburide. On physical examination, the right shoulder is not warm or red but is tender to touch. Passive and active range of motion are limited in flexion, extension, and abduction. A right shoulder radiogram shows osteopenia without evidence of joint erosion or osteophytes. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q45" value="Adhesive capsulitis"> Adhesive capsulitis</label>
+                <label><input type="radio" name="q45" value="Avascular necrosis"> Avascular necrosis</label>
+                <label><input type="radio" name="q45" value="Bicipital tendinitis"> Bicipital tendinitis</label>
+                <label><input type="radio" name="q45" value="Osteoarthritis"> Osteoarthritis</label>
+                <label><input type="radio" name="q45" value="Rotator cuff tear"> Rotator cuff tear</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-46">
+            <p>46-A 55-year-old woman presents with a four week history of shoulder pain. There has been no obvious precipitating injury and no previous experience. The pain is worse on movement and there is a grating sensation if she moves the arm too quickly. She also gets pain at night, particularly when she lies on the affected shoulder. On examination there is no obvious erythema or swelling. Passive abduction is painful between 60 and 120 degrees. She is unable to abduct the arm herself past 70-80 degrees. Flexion and extension are preserved. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q46" value="Adhesive capsulitis (frozen shoulder)"> Adhesive capsulitis (frozen shoulder)</label>
+                <label><input type="radio" name="q46" value="Supraspinatus tendonitis"> Supraspinatus tendonitis</label>
+                <label><input type="radio" name="q46" value="Acromioclavicular joint injury"> Acromioclavicular joint injury</label>
+                <label><input type="radio" name="q46" value="Glenohumeral arthritis"> Glenohumeral arthritis</label>
+                <label><input type="radio" name="q46" value="Superior labral lesion"> Superior labral lesion</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-47">
+            <p>47- A 64-year-old woman is seen by her primary care physician complaining of hip pain for about 1 week. She localises the pain to the lateral aspect of her right hip and describes it as sharp. It is worse with movement, and she finds it difficult to lie on her right side. The pain began soon after the patient was planting her garden. She has a medical history of obesity, osteoarthritis of the knees, and hypertension. Her medications include losartan 50 mg daily and hydrochlorothiazide 25 mg daily. For the pain, she has taken ibuprofen 600 mg as needed with mild to moderate relief of pain. On physical examination, the patient is not febrile and her vital signs are unremarkable. On examination of the hip, pain is elicited with external rotation and resisted abduction of the hip. Direct palpation over the lateral aspect of the upper portion of the femur near the hip joint reproduces the pain. What is the most likely diagnosis in this patient?</p>
+            <div class="options">
+                <label><input type="radio" name="q47" value="Avascular necrosis of the hip"> Avascular necrosis of the hip</label>
+                <label><input type="radio" name="q47" value="Iliotibial band syndrome"> Iliotibial band syndrome</label>
+                <label><input type="radio" name="q47" value="Meralgia paresthetica"> Meralgia paresthetica</label>
+                <label><input type="radio" name="q47" value="Septic arthritis"> Septic arthritis</label>
+                <label><input type="radio" name="q47" value="Trochanteric bursitis"> Trochanteric bursitis</label>
+            </div>
+        </div>
+        
+        <div class="question" id="question-48">
+            <p>48-A 57-year-old woman presents with a three month history of right-sided hip pain. This seems to have come on spontaneously without any obvious precipitating event. The pain is described as being worse on the 'outside' of the hip and is particularly bad at night when she lies on the right hand side. On examination there is a full range of movement in the hip including internal and external rotation. Deep palpation of the lateral aspect of the right hip joint recreates the pain. An x-ray of the right hip is reported as follows: Right hip: Minor narrowing of the joint space otherwise normal appearance. What is the most likely diagnosis?</p>
+            <div class="options">
+                <label><input type="radio" name="q48" value="Fibromyalgia"> Fibromyalgia</label>
+                <label><input type="radio" name="q48" value="Lumbar nerve root compression"> Lumbar nerve root compression</label>
+                <label><input type="radio" name="q48" value="Osteoarthritis"> Osteoarthritis</label>
+                <label><input type="radio" name="q48" value="Greater trochanteric pain syndrome"> Greater trochanteric pain syndrome</label>
+                <label><input type="radio" name="q48" value="Meralgia paresthetica"> Meralgia paresthetica</label>
+            </div>
+        </div>
+
+        <button class="btn" id="nextBtn" onclick="nextQuestion()">Next Question</button>
+        <button class="btn" id="submitBtn" onclick="evaluateQuiz()" style="display: none;">Submit Quiz</button>
+
+        <div class="result" id="result">
+            <h2>Results</h2>
+            <div id="score"></div>
+            <div id="answers-summary"></div>
+        </div>
+    </div>
+
+    <script>
+                // إنشاء عنصر الـ Overlay عند تحميل الصفحة
+                const overlay = document.createElement("div");
+        overlay.style.position = "fixed";
+        overlay.style.top = "0";
+        overlay.style.left = "0";
+        overlay.style.width = "100vw";
+        overlay.style.height = "100vh";
+        overlay.style.background = "rgba(0, 0, 0, 1)";
+        overlay.style.color = "white";
+        overlay.style.display = "flex";
+        overlay.style.justifyContent = "center";
+        overlay.style.alignItems = "center";
+        overlay.style.fontSize = "24px";
+        overlay.style.zIndex = "9999";
+        overlay.style.opacity = "0";
+        overlay.style.transition = "opacity 0.3s ease-in-out";
+        overlay.innerHTML = "Screenshot capturing is not allowed";
+        overlay.style.cursor = "pointer";
+        document.body.appendChild(overlay);
+        // إخفاء الـ Overlay عند النقر عليه
+        overlay.addEventListener("click", function () {
+            overlay.style.opacity = "0";
+            setTimeout(() => (overlay.style.display = "none"), 300);
+        });
+
+        // إضافة حدث للكيبورد لمنع الـ PrintScreen
+        document.addEventListener("keyup", function (event) {
+            if (event.key === "PrintScreen") {
+                navigator.clipboard.writeText(""); // إزالة المحتوى من الحافظة
+                // إظهار الـ Overlay
+                overlay.style.display = "flex";
+                setTimeout(() => (overlay.style.opacity = "1"), 10);
+            }
+        });
+        
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+                event.preventDefault();
+                alert("تم تعطيل أدوات المطور!");
+            }
+        });
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault(); // يمنع فتح قائمة السياق
+            alert("النقر بزر الماوس الأيمن غير مسموح به.");
+        });
+        let currentQuestion = 1;
+        const totalQuestions = 48;
+        let score = 0;
+        let timerInterval;
+        const answers = {
+            q1: "Wegener's granulomatosis",
+            q2: "Granulomatosis with polyangiitis",
+            q3: "Surgical lung biopsy",
+            q4: "Granulomatosis with polyangiitis (Wegener)",
+            q5: "Bronchiectasis",
+            q6: "Churg-Strauss syndrome",
+            q7: "Churg-Strauss syndrome",
+            q8: "pANCA",
+            q9: "Pulmonary arteries",
+            q10: "Cytoplasmic-antineutrophil cytoplasmic antibodies (cANCA)",
+            q11: "Elevated creatinine kinase",
+            q12: "Temporal arteritis",
+            q13: "Oral Prednisolone 60 mg",
+            q14: "Immediate initiation of glucocorticoid",
+            q15: "Normal plasma viscosity",
+            q16: "long-term doxycycline",
+            q17: "positive serology and clinical symptoms",
+            q18: "spirochetal infection",
+            q19: "Sjogren's syndrome",
+            q20: "Arthralgias/arthritis",
+            q21: "Dilated cardiomyopathy",
+            q22: "Cardiac fibrosis",
+            q23: "Anti Scl-70 antibody",
+            q24: "Pilocarpine",
+            q25: "Lymphoma",
+            q26: "Sarcoidosis",
+            q27: "Osteoarthritis",
+            q28: "DIP joints of hand",
+            q29: "Wrist",
+            q30: "Reduced joint space, subchondral sclerosis, bone cysts and osteophytes",
+            q31: "A defect in the extracellular matrix of cartilage",
+            q32: "Oral paracetamol",
+            q33: "Add topical ibuprofen",
+            q34: "Add oral diclofenac + proton pump inhibitor",
+            q35: "Glucosamine-chondroitin",
+            q36: "Wasting of the hypothenar eminence",
+            q37: "De Quervain's tenosynovitis",
+            q38: "De Quervain tenosynovitis",
+            q39: "Cubital tunnel syndrome",
+            q40: "Olecranon bursitis",
+            q41: "Lateral epicondylitis",
+            q42: "Resisted wrist extension with the elbow extended",
+            q43: "Radial tunnel syndrome",
+            q44: "Adhesive capsulitis",
+            q45: "Adhesive capsulitis",
+            q46: "Supraspinatus tendonitis",
+            q47: "Trochanteric bursitis",
+            q48: "Greater trochanteric pain syndrome"
+        };
+
+        function showQuestion() {
+            document.querySelectorAll('.question').forEach((q, index) => {
+                q .style.display = index + 1 === currentQuestion ? 'block' : 'none';
+            });
+            document.getElementById('nextBtn').style.display = currentQuestion < totalQuestions ? 'block' : 'none';
+            document.getElementById('submitBtn').style.display = currentQuestion === totalQuestions ? 'block' : 'none';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            clearInterval(timerInterval);
+            startTimer();
+            showQuestion();
+        }
+
+        function startTimer() {
+            let timeRemaining = 60;
+            document.getElementById('timer').textContent = `Time remaining: ${timeRemaining} seconds`;
+            timerInterval = setInterval(() => {
+                timeRemaining--;
+                document.getElementById('timer').textContent = `Time remaining: ${timeRemaining} seconds`;
+                if (timeRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    if (currentQuestion < totalQuestions) {
+                        nextQuestion();
+                    } else {
+                        evaluateQuiz();
+                    }
+                }
+            }, 1000);
+        }
+
+        function evaluateQuiz() {
+            score = 0;
+            let summary = '';
+
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                const correctAnswer = answers[`q${i}`];
+                const questionElement = document.getElementById(`question-${i}`);
+                const options = document.querySelectorAll(`input[name="q${i}"]`);
+                let questionSummary = `<p><strong>Question ${i}: </strong>${questionElement.querySelector('p').innerText}</p>`;
+
+                options.forEach(option => {
+                    const optionLabel = option.parentElement;
+                    if (option.value === correctAnswer) {
+                        optionLabel.style.color = 'green';
+                    } else if (selectedOption && selectedOption.value === option.value) {
+                        optionLabel.style.color = 'red';
+                    }
+                });
+
+                questionSummary += `<div>Answer: <strong>${selectedOption ? selectedOption.value : 'None selected'}</strong></div>`;
+                questionSummary += `<div>Correct answer: <strong>${correctAnswer}</strong></div>`;
+
+                if (selectedOption && selectedOption.value === correctAnswer) {
+                    score++;
+                    summary += questionSummary + `<p class="correct">Correct</p>`;
+                } else {
+                    summary += questionSummary + `<p class="incorrect">Incorrect</p>`;
+                }
+            }
+
+            document.getElementById('score').textContent = `Your score: ${score} out of ${totalQuestions}`;
+            document.getElementById('answers-summary').innerHTML = summary;
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('timer').style.display = 'none'; 
+            document.querySelectorAll('.question').forEach((q) => q.style.display = 'none');
+
+            clearInterval(timerInterval);
+        }
+
+        window.onload = function() {
+            showQuestion();
+            startTimer();
+        };
+        
+        
+        function nextQuestion() {
+    // Increase the current question counter
+            currentQuestion++;
+
+            // Reset the timer
+            clearInterval(timerInterval); // Stop the current timer
+            startTimer(); // Start the timer from the beginning
+
+            // Show the next question
+            showQuestion();
+        }
+        
+    </script>
+</body>
+</html>
